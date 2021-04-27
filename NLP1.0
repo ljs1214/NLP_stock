@@ -1,0 +1,16 @@
+import tushare as ts
+import jieba.analyse
+from snownlp import SnowNLP
+ts.set_token('90193843462dc2a20b14cdc80163f5f3ea48ac31c86d1ae8d5446723')
+pro = ts.pro_api()
+df = pro.cctv_news(date='20210426')
+print(df)
+keyword = jieba.analyse.extract_tags(df['content'][4],topK=15, withWeight=True)
+s = 0
+t = 0
+for i in keyword:
+    k = SnowNLP(i[0])
+    s += k.sentiments*i[1]
+    t += i[1]
+print(s/t)
+print(keyword)
